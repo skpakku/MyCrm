@@ -7,15 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.mycrm.DbConnectionException;
 import com.mycrm.DbStatementException;
+import com.mycrm.MyCrmConfig;
 import com.mycrm.model.User;
 
+@Service
 public class CrmDaoJdbcImpl implements CrmDao {
+
+	private final MyCrmConfig config;
 
 	private Connection connection;
 
-	public CrmDaoJdbcImpl() {
+	public CrmDaoJdbcImpl(MyCrmConfig config) {
+		this.config = config;
 		this.connection = initConnection();
 	}
 
@@ -32,7 +39,9 @@ public class CrmDaoJdbcImpl implements CrmDao {
 		connection = null;
 
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://IPAddr:PortNumber/DB", "username", "password");
+			connection = DriverManager.getConnection(
+					"jdbc:postgresql://" + config.getDbHost() + ":" + config.getDbPort() + "/" + config.getDbName(),
+					config.getDbUsername(), config.getDbPassword());
 
 			return connection;
 

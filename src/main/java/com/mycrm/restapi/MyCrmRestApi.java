@@ -1,4 +1,4 @@
-package com.mycrm.control;
+package com.mycrm.restapi;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -10,12 +10,16 @@ import com.mycrm.model.LoginResponse;
 import com.mycrm.model.StatusMsg;
 import com.mycrm.model.User;
 import com.mycrm.service.MyCrmService;
-import com.mycrm.service.MyCrmServiceImpl;
 
 @RestController
-public class MyCrmControl {
+public class MyCrmRestApi {
 
-	private MyCrmService myCrmService = new MyCrmServiceImpl();
+	private final MyCrmService myCrmService;
+
+	public MyCrmRestApi(MyCrmService myCrmService) {
+		super();
+		this.myCrmService = myCrmService;
+	}
 
 	@RequestMapping("/login")
 	public LoginResponse login(@RequestBody User user) {

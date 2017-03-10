@@ -4,17 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import com.mycrm.InvalidCredentailsException;
 import com.mycrm.UserNotFoundException;
 import com.mycrm.dao.CrmDao;
-import com.mycrm.dao.CrmDaoJdbcImpl;
 import com.mycrm.model.StatusMsg;
 import com.mycrm.model.User;
 
+@Service
 public class MyCrmServiceImpl implements MyCrmService {
 
-	private CrmDao crmDao = new CrmDaoJdbcImpl();
+	private final CrmDao crmDao;
 	private Map<String, User> sessions = new HashMap<String, User>();
+
+	public MyCrmServiceImpl(CrmDao crmDao) {
+		super();
+		this.crmDao = crmDao;
+	}
 
 	public String authenticate(String username, String password) {
 
